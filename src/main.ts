@@ -3,23 +3,28 @@ import { encode, encodeBest, decode } from './codec';
 
 type Direction = 'encode' | 'decode';
 let direction: Direction = 'encode';
+const starIcon = '<svg class="ornament" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1v22M1 12h22M4.2 4.2l15.6 15.6M4.2 19.8 19.8 4.2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
+const sparkleIcon = '<svg class="ornament" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1c1.5 7 4 9.5 11 11-7 1.5-9.5 4-11 11C10.5 16 8 13.5 1 12c7-1.5 9.5-4 11-11Z" fill="currentColor"/></svg>';
+const arrowIcon = '<svg class="ornament" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const diagonalArrowIcon = '<svg class="ornament" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 18 12-12M7 6h11v11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const swapIcon = '<svg class="ornament" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16m-5-5 5 5-5 5M20 17H4m5-5-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML = `
   <div class="page-shell">
-    <header class="topbar"><a class="brand" href="#top" aria-label="Awasobaba Startseite"><span class="brand-icon" aria-hidden="true">✳</span> awasobaba<span class="brand-dot">.</span></a></header>
+    <header class="topbar"><a class="brand" href="#top" aria-label="Awasobaba Startseite"><span class="brand-icon" aria-hidden="true">${starIcon}</span> awasobaba<span class="brand-dot">.</span></a></header>
     <main id="top">
       <section class="hero" aria-labelledby="title">
         <div class="hero-copy"><h1 id="title">Worte rein.<br><em>Awasobaba</em> raus<span class="hero-dot">.</span></h1></div>
-        <div class="hero-art" aria-hidden="true"><div class="art-spark spark-one">✳</div><div class="art-spark spark-two">✦</div><img class="hero-illustration" src="/backerin.png" alt=""></div>
+        <div class="hero-art" aria-hidden="true"><div class="art-spark spark-one">${starIcon}</div><div class="art-spark spark-two">${sparkleIcon}</div><img class="hero-illustration" src="/backerin.png" alt=""></div>
       </section>
       <section class="translator" aria-label="Awasobaba-Übersetzer">
         
-        <div class="direction-tabs" role="group" aria-label="Richtung wählen"><button class="direction active" data-direction="encode" aria-pressed="true">Text <span>→</span> Awasobaba</button><button class="direction" data-direction="decode" aria-pressed="false">Awasobaba <span>→</span> Text</button></div>
-        <div class="fields"><div class="field"><div class="field-heading"><label id="input-label" for="input">DEIN TEXT</label><span id="input-count">0 Zeichen</span></div><textarea id="input" spellcheck="false" placeholder="Hier kommen deine Worte rein …"></textarea><div class="field-bottom"><span></span><button id="example" class="text-button" type="button">Beispiel laden <span>↗</span></button></div></div>
-        <button id="swap" class="swap" type="button" aria-label="Richtung wechseln" title="Richtung wechseln">⇄</button>
+        <div class="direction-tabs" role="group" aria-label="Richtung wählen"><button class="direction active" data-direction="encode" aria-pressed="true" aria-label="Text zu Awasobaba">Text <span>${arrowIcon}</span> Awasobaba</button><button class="direction" data-direction="decode" aria-pressed="false" aria-label="Awasobaba zu Text">Awasobaba <span>${arrowIcon}</span> Text</button></div>
+        <div class="fields"><div class="field"><div class="field-heading"><label id="input-label" for="input">DEIN TEXT</label><span id="input-count">0 Zeichen</span></div><textarea id="input" spellcheck="false" placeholder="Hier kommen deine Worte rein …"></textarea><div class="field-bottom"><span></span><button id="example" class="text-button" type="button">Beispiel laden <span>${diagonalArrowIcon}</span></button></div></div>
+        <button id="swap" class="swap" type="button" aria-label="Richtung wechseln" title="Richtung wechseln">${swapIcon}</button>
         <div class="field output-field"><div class="field-heading"><label id="output-label" for="output">AWASOBABA</label><span id="output-count">0 Zeichen</span></div><textarea id="output" readonly placeholder="AWASOBABA"></textarea><div class="field-bottom"><span></span><span id="codec-status" role="status" aria-live="polite"></span></div></div></div>
         <div id="error" class="error" role="alert" hidden></div>
-        <div class="actions"><div class="action-left"><button id="copy" class="button primary" type="button">Kopieren <span>↗</span></button><button id="clear" class="button secondary" type="button">Leeren</button><button id="swap-text" class="mobile-swap" type="button">⇄ &nbsp; Richtung wechseln</button></div><span id="copy-status" class="copy-status" role="status" aria-live="polite"></span><span class="privacy"><span>✳</span> Bleibt alles in deinem Browser.</span></div>
+        <div class="actions"><div class="action-left"><button id="copy" class="button primary" type="button">Kopieren <span>${diagonalArrowIcon}</span></button><button id="clear" class="button secondary" type="button">Leeren</button><button id="swap-text" class="mobile-swap" type="button">${swapIcon} &nbsp; Richtung wechseln</button></div><span id="copy-status" class="copy-status" role="status" aria-live="polite"></span><span class="privacy"><span>${starIcon}</span> Bleibt alles in deinem Browser.</span></div>
       </section>
       <section class="bottom-row"><details><summary><span><span class="summary-icon">?</span> Wie funktioniert’s?</span><span class="plus" aria-hidden="true">+</span></summary><div class="details-content">
         <p>Jeder Block folgt demselben Rhythmus: erst 1 bis 4 mal <strong>awa</strong>, dann 1 bis 4 mal <strong>so</strong>, dann 1 bis 4 mal <strong>ba</strong>.</p>
@@ -27,7 +32,7 @@ app.innerHTML = `
         <p><strong>Automatisch die kürzeste Ausgabe:</strong> Die Website vergleicht die kompakte Variante mit der ursprünglichen UTF-8-Kodierung und, wenn vom Browser unterstützt, einer komprimierten Variante. Sie zählt dabei auch Leerzeichen und Abschlussmarker mit. Bei der ursprünglichen Kodierung werden die UTF-8-Bytes in 6-Bit-Gruppen zerlegt; bei der komprimierten Variante werden sie vorher mit gzip komprimiert.</p>
         <p>Die kompakte Ausgabe endet mit <strong>zu wenig Mehl!!</strong>. Bei der ursprünglichen und der komprimierten Variante gibt der Mehl-Abschlussmarker an, wie viele Auffüllbits entfernt werden müssen. Beim Zurückübersetzen wird das passende Format automatisch erkannt. Alles passiert lokal in deinem Browser.</p>
       </div></details><div class="baba-badge" aria-label="Mit extra Baba"><div class="bottom-stamp" aria-hidden="true"><img src="/baba.png" alt=""></div><span class="baba-badge-text" aria-hidden="true">MIT EXTRA<br><strong>BABA<span>.</span></strong></span></div></section>
-    </main><footer><span>© AWASOBABA · MIT MEHL GEMACHT</span><span>WENIGER BLABLA, MEHR BABA. ✳</span></footer>
+    </main><footer><span>©&#xfe0e; AWASOBABA · MIT MEHL GEMACHT</span><span>WENIGER BLABLA, MEHR BABA. ${starIcon}</span></footer>
   </div>`;
 const input = document.querySelector<HTMLTextAreaElement>('#input')!;
 const output = document.querySelector<HTMLTextAreaElement>('#output')!;

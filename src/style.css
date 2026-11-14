@@ -9,3 +9,19 @@
 @media(max-width:390px){.hero h1{font-size:clamp(38px,10vw,44px)}.hero-art{width:125px;height:110px}}
 
 .baba-badge{display:flex;align-items:center;gap:13px;flex:none}.bottom-stamp{transform:none}.baba-badge-text{color:#a65e45;font-size:10px;font-weight:800;line-height:1.15;letter-spacing:1px;white-space:nowrap}.baba-badge-text strong{font-family:Georgia,serif;font-size:23px;letter-spacing:-.5px}.baba-badge-text strong span{color:#d56845}@media(max-width:700px){.baba-badge{gap:7px}.baba-badge-text{font-size:8px;letter-spacing:.4px}.baba-badge-text strong{font-size:17px}.bottom-row{gap:12px}.bottom-stamp{width:58px;height:58px}}
+
+/* Draw ornaments independently of the platform's emoji fonts. */
+.ornament{display:inline-block;width:1em;height:1em;vertical-align:-.12em}
+.brand-icon{display:inline-block}
+.bottom-row>details{min-width:0}
+.details-content{overflow-wrap:anywhere}
+@media(max-width:700px){
+  .bottom-row{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+  .bottom-row>details{width:100%}
+  .details-content{max-width:none;padding:0 0 14px;font-size:15px}
+  .details-content p{margin:0 0 16px}
+  .details-content p:last-child{margin-bottom:0}
+  .baba-badge{justify-self:end}
+  summary{gap:12px}
+  .plus{flex-shrink:0}
+}
